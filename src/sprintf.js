@@ -21,6 +21,8 @@
         sign: /^[+-]/
     }
 
+    require('./cycle.js')
+
     function sprintf(key) {
         // `arguments` is not an array, but should be fine for this call
         return sprintf_format(sprintf_parse(key), arguments)
@@ -78,7 +80,7 @@
                         arg = parseInt(arg, 10)
                         break
                     case 'j':
-                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0)
+                        arg = JSON.stringify(JSON.decycle(arg), null, ph.width ? parseInt(ph.width) : 0)
                         break
                     case 'e':
                         arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential()

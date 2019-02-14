@@ -9,6 +9,14 @@ var assert = require('assert'),
 describe('sprintfjs', function() {
     var pi = 3.141592653589793
 
+    // creates a circular reference object
+    var i = {a: 'x', ref: null}
+    var j = {b: 'y', ref: null}
+    var k = {c: 'z', ref: null}
+    i.ref = j
+    j.ref = k
+    k.ref = i
+
     it('should return formated strings for simple placeholders', function() {
         assert.equal('%', sprintf('%%'))
         assert.equal('10', sprintf('%b', 2))
@@ -19,6 +27,8 @@ describe('sprintfjs', function() {
         assert.equal('2', sprintf('%i', '2'))
         assert.equal('{"foo":"bar"}', sprintf('%j', {foo: 'bar'}))
         assert.equal('["foo","bar"]', sprintf('%j', ['foo', 'bar']))
+        assert.equal('{"a":"x","ref":{"b":"y","ref":{"c":"z","ref":{"$ref":"$"}}}}',
+            sprintf(sprintf('%j', i)))
         assert.equal('2e+0', sprintf('%e', 2))
         assert.equal('2', sprintf('%u', 2))
         assert.equal('4294967294', sprintf('%u', -2))
