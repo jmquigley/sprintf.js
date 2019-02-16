@@ -21,7 +21,7 @@
         sign: /^[+-]/
     }
 
-    require('./cycle.js')
+    require('util.obj-cycle')
 
     function sprintf(key) {
         // `arguments` is not an array, but should be fine for this call
